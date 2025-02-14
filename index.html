@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>Valentimesuprise</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #ffebf0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        img{
+            background-image: none;
+            background-color: transparent;
+        }
+
+        h1 {
+            color: #ff3b6e;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(255,59,110,0.3);
+        }
+
+        .buttons {
+            margin-top: 2em;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #yesBtn {
+            background: #ff3b6e;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255,59,110,0.3);
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            background: #ff1a4a;
+        }
+
+        #noBtn {
+            background: #ffffff;
+            color: #ff3b6e;
+            border: 2px solid #ff3b6e;
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+
+        .heart-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff3b6e;
+            animation: float 3s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { transform: translateY(-100px) scale(1.5); opacity: 1; }
+            100% { transform: translateY(-200px) scale(0.5); opacity: 0; }
+        }
+
+        .answer-container {
+            display: none;
+            font-size: 2em;
+            color: #ff3b6e;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="question-container">
+            <img src="pre.gif" alt="Valentine Gif">
+            <h1>Will you be my Valentine? 💖</h1>
+            <div class="buttons">
+                <button id="yesBtn">YES!</button>
+                <button id="noBtn">NO</button>
+                <div class="heart-container"></div>
+            </div>
+        </div>
+        <div class="answer-container">
+            <img src="post.gif" alt="Valentine Gif">
+            <h2>YAY! You've made me the happiest! 💘<br>😘My CSS😘<br>I love you so much!😍</h2>
+            <div class="hearts"></div>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const questionContainer = document.querySelector('.question-container');
+        const answerContainer = document.querySelector('.answer-container');
+        const heartContainer = document.querySelector('.heart-container');
+
+        noBtn.addEventListener('mouseover', () => {
+            const containerRect = questionContainer.getBoundingClientRect();
+            const newX = Math.random() * (containerRect.width - noBtn.offsetWidth);
+            const newY = Math.random() * (containerRect.height - noBtn.offsetHeight);
+            
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
+            
+            // Add hearts animation
+            for(let i = 0; i < 5; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '💖';
+                heart.className = 'heart';
+                heart.style.left = `${newX + Math.random() * 30}px`;
+                heart.style.animationDelay = `${i * 0.15}s`;
+                heartContainer.appendChild(heart);
+            }
+        });
+
+
+        yesBtn.addEventListener('click', () => {
+            questionContainer.style.opacity = '0';
+            answerContainer.style.display = 'block';
+            
+            // Create heart explosion
+            for(let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = Math.random() > 0.5 ? '💖' : '💘';
+                heart.style.position = 'absolute';
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.top = `${Math.random() * 100}vh`;
+                heart.style.animation = `float ${2 + Math.random() * 3}s infinite`;
+                document.body.appendChild(heart);
+            }
+            
+            setTimeout(() => {
+                questionContainer.style.display = 'none';
+            }, 1000);
+        });
+
+        // Add initial floating hearts
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💖';
+            heart.className = 'heart';
+            heart.style.left = `${Math.random() * 100}%`;
+            heartContainer.appendChild(heart);
+        }, 3000);
+    </script>
+</body>
+</html>
